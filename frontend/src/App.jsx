@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const API = "http://localhost:5000/api";
+const API = "https://taskplanet-social-1.onrender.com";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const token = () => localStorage.getItem("tp_token");
