@@ -13,7 +13,10 @@ const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/taskplanet
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "https://taskplanet-social-3.onrender.com",
+  credentials: true
+}));
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
