@@ -407,7 +407,7 @@ function CreatePost({ user, onPost }) {
       const fd = new FormData();
       if (text) fd.append("text", text);
       if (image) fd.append("image", image);
-      const res = await fetch(`${API}/posts`, { method: "POST", headers: headers(true), body: fd });
+      const res = await fetch(`${API}/api/posts`, { method: "POST", headers: headers(true), body: fd });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
       onPost(data);
@@ -492,7 +492,7 @@ function PostCard({ post, currentUser, onLike, onComment, onDelete }) {
       </div>
 
       {post.text && <div style={S.postText}>{post.text}</div>}
-      {post.image && <img src={`http://localhost:5000${post.image}`} alt="post" style={S.postImg} />}
+      {post.image && <img src={`${API}${post.image}`} alt="post" style={S.postImg} />}
 
       <div style={S.postActions}>
         <button
@@ -639,7 +639,7 @@ function ProfileScreen({ user, posts, onLogout }) {
         myPosts.map((p) => (
           <div key={p._id} style={S.card}>
             {p.text && <div style={{ fontSize: 14, color: "#333", marginBottom: p.image ? 8 : 0 }}>{p.text}</div>}
-            {p.image && <img src={`http://localhost:5000${p.image}`} alt="" style={{ width: "100%", borderRadius: 8, maxHeight: 160, objectFit: "cover" }} />}
+            {p.image && <img src={`${API}${p.image}`} alt=""style={{ width: "100%", borderRadius: 8, maxHeight: 160, objectFit: "cover" }} />}
             <div style={{ fontSize: 12, color: "#aaa", marginTop: 8 }}>❤️ {p.likes.length} &nbsp; 💬 {p.comments.length} &nbsp; · {timeAgo(p.createdAt)}</div>
           </div>
         ))
@@ -724,7 +724,7 @@ export default function App() {
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API}/posts`, { headers: headers() });
+      const res = await fetch(`${API}/api/posts`, { headers: headers() });
       if (res.ok) setPosts(await res.json());
     } catch {}
     setLoading(false);
@@ -732,7 +732,7 @@ export default function App() {
 
   const handleLike = async (postId) => {
     try {
-      const res = await fetch(`${API}/posts/${postId}/like`, { method: "POST", headers: headers() });
+      const res = await fetch(`${API}/api/posts/${postId}/like`, { method: "POST", headers: headers() });
       const data = await res.json();
       setPosts((prev) => prev.map((p) => p._id === postId ? { ...p, likes: data.likes } : p));
     } catch {}
@@ -740,7 +740,7 @@ export default function App() {
 
   const handleComment = async (postId, text) => {
     try {
-      const res = await fetch(`${API}/posts/${postId}/comment`, {
+      const res = await fetch(`${API}/api/posts/${postId}/comment`, {
         method: "POST",
         headers: headers(),
         body: JSON.stringify({ text }),
@@ -753,7 +753,7 @@ export default function App() {
   const handleDelete = async (postId) => {
     if (!window.confirm("Delete this post?")) return;
     try {
-      await fetch(`${API}/posts/${postId}`, { method: "DELETE", headers: headers() });
+      await fetch(`${API}/api/posts/${postId}`, { method: "DELETE", headers: headers() });
       setPosts((prev) => prev.filter((p) => p._id !== postId));
     } catch {}
   };
