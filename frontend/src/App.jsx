@@ -306,7 +306,7 @@ function AuthScreen({ onAuth }) {
     if (mode === "signup" && !form.username) return setError("Username required");
     setLoading(true);
     try {
-      const res = await fetch(`${API}/${mode}`, {
+      const res = await fetch(`${API}/api/${mode}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
