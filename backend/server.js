@@ -184,4 +184,8 @@ app.delete('/api/posts/:id', auth, async (req, res) => {
   }
 });
 
+app.get('/', (req, res) => {
+  res.send('TaskPlanet Backend is Running 🚀');
+});
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
